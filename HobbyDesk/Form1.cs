@@ -50,7 +50,7 @@ namespace HobbyDesk
         /// <summary>
         /// Po kliknutí na tlačítko se načte hlavní stránka v panelu Obsah.
         /// </summary>
-        private void buttonIndex_Click(object sender, EventArgs e)
+        private void ButtonIndex_Click(object sender, EventArgs e)
         {
             NactiUserControls(indexControl);
         }

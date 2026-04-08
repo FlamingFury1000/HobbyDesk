@@ -59,7 +59,7 @@
             this.buttonIndex.TabIndex = 2;
             this.buttonIndex.Text = "Domovská stránka";
             this.buttonIndex.UseVisualStyleBackColor = true;
-            this.buttonIndex.Click += new System.EventHandler(this.buttonIndex_Click);
+            this.buttonIndex.Click += new System.EventHandler(this.ButtonIndex_Click);
             // 
             // buttonSeznam
             // 
@@ -116,7 +116,9 @@
             this.ClientSize = new System.Drawing.Size(1325, 769);
             this.Controls.Add(this.panelObsah);
             this.Controls.Add(this.layoutPanelMenu);
+            this.MinimumSize = new System.Drawing.Size(997, 600);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.layoutPanelMenu.ResumeLayout(false);
             this.ResumeLayout(false);

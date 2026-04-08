@@ -86,6 +86,12 @@
     <Compile Include="Data\Modely\Kategorie.cs" />
     <Compile Include="Data\Modely\Produkt.cs" />
     <Compile Include="Data\Modely\Vyrobce.cs" />
+    <Compile Include="Forms\UpravProduktForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UpravProduktForm.Designer.cs">
+      <DependentUpon>UpravProduktForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Sluzby\JsonStorage.cs" />
     <Compile Include="UserControllers\IndexControl.cs">
       <SubType>UserControl</SubType>
@@ -116,6 +122,9 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UpravProduktForm.resx">
+      <DependentUpon>UpravProduktForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControllers\IndexControl.resx">
       <DependentUpon>IndexControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,6 +147,7 @@
       <DependentUpon>VlozControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\HobbyDesk.Data.AppData.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
