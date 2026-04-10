@@ -40,7 +40,11 @@
             this.textBoxHledani = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.comboBoxZobrazeni = new System.Windows.Forms.ComboBox();
-            this.checkBoxSeznamIkony = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.comboBoxKategorie = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.comboBoxVyrobci = new System.Windows.Forms.ComboBox();
+            this.buttonResetFiltry = new System.Windows.Forms.Button();
             this.contextMenuProdukty.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -113,7 +117,11 @@
             this.flowLayoutPanel1.Controls.Add(this.textBoxHledani);
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this.comboBoxZobrazeni);
-            this.flowLayoutPanel1.Controls.Add(this.checkBoxSeznamIkony);
+            this.flowLayoutPanel1.Controls.Add(this.label3);
+            this.flowLayoutPanel1.Controls.Add(this.comboBoxKategorie);
+            this.flowLayoutPanel1.Controls.Add(this.label4);
+            this.flowLayoutPanel1.Controls.Add(this.comboBoxVyrobci);
+            this.flowLayoutPanel1.Controls.Add(this.buttonResetFiltry);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -161,19 +169,53 @@
             this.comboBoxZobrazeni.TabIndex = 3;
             this.comboBoxZobrazeni.SelectedIndexChanged += new System.EventHandler(this.ComboBoxZobrazeniSelectedIndexChanged);
             // 
-            // checkBoxSeznamIkony
+            // label3
             // 
-            this.checkBoxSeznamIkony.AutoSize = true;
-            this.checkBoxSeznamIkony.Checked = true;
-            this.checkBoxSeznamIkony.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxSeznamIkony.Location = new System.Drawing.Point(724, 65);
-            this.checkBoxSeznamIkony.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
-            this.checkBoxSeznamIkony.Name = "checkBoxSeznamIkony";
-            this.checkBoxSeznamIkony.Size = new System.Drawing.Size(73, 24);
-            this.checkBoxSeznamIkony.TabIndex = 7;
-            this.checkBoxSeznamIkony.Text = "Ikony";
-            this.checkBoxSeznamIkony.UseVisualStyleBackColor = true;
-            this.checkBoxSeznamIkony.Click += new System.EventHandler(this.CheckBoxSeznamIkonyClick);
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(724, 66);
+            this.label3.Margin = new System.Windows.Forms.Padding(3, 8, 8, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(81, 20);
+            this.label3.TabIndex = 7;
+            this.label3.Text = "Kategorie:";
+            // 
+            // comboBoxKategorie
+            // 
+            this.comboBoxKategorie.FormattingEnabled = true;
+            this.comboBoxKategorie.Location = new System.Drawing.Point(816, 61);
+            this.comboBoxKategorie.Name = "comboBoxKategorie";
+            this.comboBoxKategorie.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxKategorie.TabIndex = 5;
+            this.comboBoxKategorie.SelectedIndexChanged += new System.EventHandler(this.ComboBoxKategorieSelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(61, 100);
+            this.label4.Margin = new System.Windows.Forms.Padding(3, 8, 8, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(69, 20);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Výrobci: ";
+            // 
+            // comboBoxVyrobci
+            // 
+            this.comboBoxVyrobci.FormattingEnabled = true;
+            this.comboBoxVyrobci.Location = new System.Drawing.Point(141, 95);
+            this.comboBoxVyrobci.Name = "comboBoxVyrobci";
+            this.comboBoxVyrobci.Size = new System.Drawing.Size(121, 28);
+            this.comboBoxVyrobci.TabIndex = 6;
+            this.comboBoxVyrobci.SelectedIndexChanged += new System.EventHandler(this.ComboBoxVyrobciSelectedIndexChanged);
+            // 
+            // buttonResetFiltry
+            // 
+            this.buttonResetFiltry.Location = new System.Drawing.Point(268, 95);
+            this.buttonResetFiltry.Name = "buttonResetFiltry";
+            this.buttonResetFiltry.Size = new System.Drawing.Size(160, 33);
+            this.buttonResetFiltry.TabIndex = 11;
+            this.buttonResetFiltry.Text = "Resetuj filtry";
+            this.buttonResetFiltry.UseVisualStyleBackColor = true;
+            this.buttonResetFiltry.Click += new System.EventHandler(this.ButtonResetFiltryClick);
             // 
             // SeznamControl
             // 
@@ -203,6 +245,10 @@
         private System.Windows.Forms.ComboBox comboBoxZobrazeni;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.CheckBox checkBoxSeznamIkony;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox comboBoxKategorie;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox comboBoxVyrobci;
+        private System.Windows.Forms.Button buttonResetFiltry;
     }
 }

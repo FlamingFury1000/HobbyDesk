@@ -21,25 +21,39 @@ namespace HobbyDesk.UserControllers
         private AppData appData;
         private List<Produkt> filtrovaneProdukty;
         ImageList imageList = new ImageList();
-        private bool zobrazovatIkony;
+        private string hledanyText = "";
+        private int? vybranaKategorieId = null;
+        private int? vybranyVyrobceId = null;
+        private bool ignorujEventy = false;
 
         public SeznamControl(AppData appData)
         {
             InitializeComponent();
-
-            // Povol zobrazení ikon pro list.
-            zobrazovatIkony = true;
-
-            // Inicialiuje event handler pro dynamickou změnu velikosti ListView.
-            ListViewSeznamResize(null, null);
 
             // Přiřaď appData z Form1 do této třídy a odkaž na produkty, které se budou zobrazovat v ListView.
             this.appData = appData;
             filtrovaneProdukty = appData.Produkty;
             listViewSeznam.Columns.Clear();
 
-            // Zavolej metodu která nastaví sloupce v ListView podle aktuálního stavu zobrazování ikon.
-            NastavSloupce();
+            // Přidej kategorie do ComboBoxu pro filtrování podle kategorie.
+            comboBoxKategorie.Items.Add("");
+            comboBoxKategorie.Items.AddRange(appData.Kategorie.ToArray());
+            comboBoxKategorie.DisplayMember = "Nazev";
+            comboBoxKategorie.SelectedIndex = 0;
+
+            // Přidej výrobce do ComboBoxu pro filtrování podle výrobce.
+            comboBoxVyrobci.Items.Add("");
+            comboBoxVyrobci.Items.AddRange(appData.Vyrobci.ToArray());
+            comboBoxVyrobci.DisplayMember = "Nazev";
+            comboBoxVyrobci.SelectedIndex = 0;
+
+            // Přidej sloupce do ListView pro zobrazení věskerých parametrů produktu.
+            listViewSeznam.Columns.Add("", 70);
+            listViewSeznam.Columns.Add("Název", 200);
+            listViewSeznam.Columns.Add("Počet", 70);
+            listViewSeznam.Columns.Add("Kategorie", 120);
+            listViewSeznam.Columns.Add("Výrobce", 120);
+            listViewSeznam.Columns.Add("ID", 50);
 
             // Přidej možnosti zobrazení do ComboBoxu pro změnu zobrazení ListView.
             comboBoxZobrazeni.Items.Add("Tabulka");
@@ -47,8 +61,7 @@ namespace HobbyDesk.UserControllers
             comboBoxZobrazeni.Items.Add("Velké ikony");
             comboBoxZobrazeni.SelectedIndex = 0;
 
-            // Nastav ImageList pro ListView a definuj velikost obrázků. Také nastav barevnou hloubku.
-            imageList.ImageSize = new Size(64, 64);
+            // Nastav obrázkům barevnou hloubku.
             imageList.ColorDepth = ColorDepth.Depth32Bit;
 
             // SmallImageList = Detail | LargeImageList = Tile, LargeIcon
@@ -56,25 +69,6 @@ namespace HobbyDesk.UserControllers
             listViewSeznam.LargeImageList = imageList;
 
             AktualizujSeznam();
-        }
-
-        private void NastavSloupce()
-        {
-            // Vyčisti všechny sloupce v ListView
-            listViewSeznam.Columns.Clear();
-
-            // Pokud je checkbox pro zobrazení ikon zaškrtnutý, přidej první sloupec pro zobrazení ikon.
-            if (zobrazovatIkony == true)
-            {
-                listViewSeznam.Columns.Add("", 70);
-            }
-
-            // Přidej sloupce do ListView pro zobrazení věskerých parametrů produktu.
-            listViewSeznam.Columns.Add("Název", 200);
-            listViewSeznam.Columns.Add("Počet", 70);
-            listViewSeznam.Columns.Add("Kategorie", 120);
-            listViewSeznam.Columns.Add("Výrobce", 120);
-            listViewSeznam.Columns.Add("ID", 50);
         }
 
         /// <summary>
@@ -119,14 +113,10 @@ namespace HobbyDesk.UserControllers
                     cesta = "Obrazky/default.png";
                 }
 
-                // Načti obrázek a a pokud je checkbox pro zobrazení ikon zaškrtnutý, přidej ho do ImageListu s klíčem.
+                // Přidej obrázek do ImageListu a přiřaď mu klíč podle ID produktu.
                 Image obrazek = Image.FromFile(cesta);
                 string klic = produkt.Id.ToString();
-
-                if (zobrazovatIkony == true)
-                {
-                    imageList.Images.Add(klic, obrazek);
-                }
+                imageList.Images.Add(klic, obrazek);
 
                 // Vytvoř item a přiřaď mu veškeré potřebné informace
                 ListViewItem item;
@@ -134,18 +124,9 @@ namespace HobbyDesk.UserControllers
                 // Pokud je zobrazení nastaveno na "Tabulka", přidej všechny parametry jako subitems bez popisků.
                 if (listViewSeznam.View == View.Details)
                 {
-                    // Pokud je checkbox pro zobrazení ikon zaškrtnutý, nastav první subitem jako prázdný pro zobrazení ikony.
-                    if (zobrazovatIkony == true)
-                    {
-                        item = new ListViewItem("");
-                        item.SubItems.Add(produkt.Nazev);
+                    item = new ListViewItem("");
 
-                    }
-                    // Jinak nastav první subitem jako název produktu.
-                    else
-                    {
-                        item = new ListViewItem(produkt.Nazev);
-                    }
+                    item.SubItems.Add(produkt.Nazev);
                     item.SubItems.Add(produkt.Pocet.ToString());
                     item.SubItems.Add(nazevKategorie);
                     item.SubItems.Add(nazevVyrobce);
@@ -162,11 +143,8 @@ namespace HobbyDesk.UserControllers
                     item.SubItems.Add("ID: " + produkt.Id.ToString());
                 }
 
-                // Pokud je checkbox pro zobrazení ikon zaškrtnutý, přiřaď klíč obrázku k položce pro zobrazení ikony.
-                if (zobrazovatIkony == true)
-                {
-                    item.ImageKey = klic;
-                }
+                // Přiřaď klíč obrázku k položce pro zobrazení ikony.
+                item.ImageKey = klic;
 
                 // Přiřaď produkt jako Tag položky pro pozdější identifikaci.
                 item.ToolTipText = $"Počet: {produkt.Pocet}\nKategorie: {nazevKategorie}\nVýrobce: {nazevVyrobce}";
@@ -190,14 +168,15 @@ namespace HobbyDesk.UserControllers
             Produkt vybranyProdukt = (Produkt)listViewSeznam.SelectedItems[0].Tag;
 
             // Zobraz potvrzovací dialog pro smazání produktu.
-            DialogResult dialogResult = MessageBox.Show($"Opravdu chcete smazat produkt '{vybranyProdukt.Nazev}'?", 
-                "Potvrzení smazání", 
-                MessageBoxButtons.YesNo, 
+            DialogResult dialogResult = MessageBox.Show($"Opravdu chcete smazat produkt '{vybranyProdukt.Nazev}'?",
+                "Potvrzení smazání",
+                MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
             );
 
             // Pokud je odpověď dialogu ano, smaž produkt z appData a filtrovaných produktů a aktualizuj seznam.
-            if ( dialogResult == DialogResult.Yes ) {
+            if (dialogResult == DialogResult.Yes)
+            {
                 appData.Produkty.Remove(vybranyProdukt);
                 filtrovaneProdukty.Remove(vybranyProdukt);
                 AktualizujSeznam();
@@ -231,12 +210,6 @@ namespace HobbyDesk.UserControllers
         /// </summary>
         private void ListViewSeznamDoubleClick(object sender, EventArgs e)
         {
-            // Pokud ListView nemá žádné sloupce, neupravuj jejich šířku.
-            if (listViewSeznam.Columns.Count == 0)
-            {
-                return;
-            }
-
             // Vyber vybranou položku.
             Produkt vybranyProdukt = (Produkt)listViewSeznam.SelectedItems[0].Tag;
 
@@ -253,45 +226,25 @@ namespace HobbyDesk.UserControllers
         /// </summary>
         private void ListViewSeznamResize(object sender, EventArgs e)
         {
-            // Pokud ListView nemá žádné sloupce, neupravuj jejich šířku.
-            if (listViewSeznam.Columns.Count == 0)
+            // Dokud ListView nemá všechny potřebné sloupce, neprováděj žádnou akci.
+            if (listViewSeznam.Columns.Count < 6)
             {
                 return;
             }
 
-            // Získej aktuální šířku ListView.
-            int sirka = listViewSeznam.ClientSize.Width;
+            // Získej celkovou šířku ListView a definuj pevnou šířku pro sloupec s obrázkem.
+            int sirkaListu = listViewSeznam.ClientSize.Width;
+            listViewSeznam.Columns[0].Width = 70; // Obrázek
 
-            // Inicializuj proměnné pro výpočet šířky sloupců.
-            int startIndex = 0;
-            int odebrat = 0;
-
-            // Pokud je checkbox pro zobrazení ikon zaškrtnutý, přidej pevnou šířku pro zobrazení ikon a posuň index pro ostatní sloupce.
-            if (zobrazovatIkony == true)
-            {
-                // Pozor, pokud počet sloupců je menší než 6, něco se pokazilo, a nic neprováděj.
-                if (listViewSeznam.Columns.Count < 6)
-                {
-                    return;
-                }
-                listViewSeznam.Columns[0].Width = 70;
-                startIndex = 1;
-                odebrat = 70;
-            }
-
-            // Odečti od celkové šířky pevnou šířku pro obrázky. Pokud je zbytek menší než 0, nastav ho na 0.
-            int zbytek = sirka - odebrat;
-            if (zbytek < 0)
-            {
-                zbytek = 0;
-            }
+            // Odečti od celkové šířky pevnou šířku pro obrázky.
+            int zbytek = sirkaListu - 70;
 
             // Nastav šířku jednotlivých sloupců podle procentuálního rozdělení zbytku šířky.
-            listViewSeznam.Columns[startIndex + 0].Width = (int)(zbytek * 0.40); // Název
-            listViewSeznam.Columns[startIndex + 1].Width = (int)(zbytek * 0.10); // Počet
-            listViewSeznam.Columns[startIndex + 2].Width = (int)(zbytek * 0.20); // Kategorie
-            listViewSeznam.Columns[startIndex + 3].Width = (int)(zbytek * 0.20); // Výrobce
-            listViewSeznam.Columns[startIndex + 4].Width = (int)(zbytek * 0.10); // ID
+            listViewSeznam.Columns[1].Width = (int)(zbytek * 0.40); // Název
+            listViewSeznam.Columns[2].Width = (int)(zbytek * 0.10); // Počet
+            listViewSeznam.Columns[3].Width = (int)(zbytek * 0.20); // Kategorie
+            listViewSeznam.Columns[4].Width = (int)(zbytek * 0.20); // Výrobce
+            listViewSeznam.Columns[5].Width = (int)(zbytek * 0.10); // ID
         }
 
         /// <summary>
@@ -299,21 +252,129 @@ namespace HobbyDesk.UserControllers
         /// </summary>
         private void TextBoxHledaniTextChanged(object sender, EventArgs e)
         {
-            // Ulož hledaný text jako shodu pro hledání.
-            string hledanyText = textBoxHledani.Text.ToLower();
+            // Zamezuje kaskádnímu volání eventů při resetování filtrů.
+            if (ignorujEventy == true) 
+            { 
+                return; 
+            }
 
-            // Vyčisti filtrovaneProdukty a přidej produkty, které obsahují hledaný text v názvu.
-            filtrovaneProdukty = new List<Produkt>();
+            // Ulož hledaný text jako shodu pro hledání.
+            hledanyText = textBoxHledani.Text.ToLower();
+
+            AplikujFiltry();
+        }
+
+        /// <summary>
+        /// ComboBox pro výběr kategorie při změně výběru aktualizuje filtrované produkty s vybranou kategorií.
+        /// </summary>
+        private void ComboBoxKategorieSelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Zamezuje kaskádnímu volání eventů při resetování filtrů.
+            if (ignorujEventy == true)
+            {
+                return;
+            }
+
+            // Pokud je vybraná položka v ComboBoxu kategorie, ulož její ID jako shodu pro hledání. Jinak nic.
+            if (comboBoxKategorie.SelectedItem is Kategorie kategorie)
+            {
+                vybranaKategorieId = kategorie.Id;
+
+            }
+            else
+            {
+                vybranaKategorieId = null;
+            }
+            AplikujFiltry();
+        }
+
+        /// <summary>
+        /// ComboBox pro výběr výrobce při změně výběru aktualizuje filtrované produkty s vybraným výrobcem.
+        /// </summary>
+        private void ComboBoxVyrobciSelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Zamezuje kaskádnímu volání eventů při resetování filtrů.
+            if (ignorujEventy == true)
+            {
+                return;
+            }
+
+            // Pokud je vybraná položka v ComboBoxu výrobce, ulož její ID jako shodu pro hledání. Jinak nic.
+            if (comboBoxVyrobci.SelectedItem is Vyrobce vyrobce)
+            {
+                vybranyVyrobceId = vyrobce.Id;
+            }
+            else
+            {
+                vybranyVyrobceId = null;
+            }
+            AplikujFiltry();
+        }
+
+        /// <summary>
+        /// Applikuje aktuálně nastavené filtry na kolekci produktů a aktualizuje zobrazený seznam podle výsledků filtrování.
+        /// </summary>
+        private void AplikujFiltry()
+        {
+            List<Produkt> vysledek = new List<Produkt>();
+
             foreach (Produkt produkt in appData.Produkty)
             {
-                if (produkt.Nazev != null && produkt.Nazev.ToLower().Contains(hledanyText))
-                {
-                    filtrovaneProdukty.Add(produkt);
+                bool odpovida = true;
+                
+                // Pokud je hledaný text neprázdný, zkontroluj, zda název produktu obsahuje hledaný text.
+                if (!string.IsNullOrWhiteSpace(hledanyText)) {
+                    if (produkt.Nazev == null || !produkt.Nazev.ToLower().Contains(hledanyText.ToLower())) {
+                        odpovida = false;
+                    } 
+                }
+
+                // Pokud je vybraná kategorie, zkontroluj, zda ID kategorie produktu odpovídá vybrané kategorii.
+                if (vybranaKategorieId.HasValue) {
+                    if (produkt.IdKategorie != vybranaKategorieId.Value) {
+                        odpovida = false;
+                    }
+                }
+
+                // Pokud je vybraný výrobce, zkontroluj, zda ID výrobce produktu odpovídá vybranému výrobci.
+                if (vybranyVyrobceId.HasValue) {
+                    if (produkt.IdVyrobce != vybranyVyrobceId.Value) {
+                        odpovida = false;
+                    }
+                }
+
+                // Pokud produkt odpovídá všem aktivním filtrům, přidej ho do výsledku.
+                if (odpovida) {
+                    vysledek.Add(produkt);
                 }
             }
 
-            // Aktualizuj seznam v ListView podle nově filtrovaných produktů.
+            filtrovaneProdukty = vysledek;
+
             AktualizujSeznam();
+        }
+
+        /// <summary>
+        /// Tlačítko, které po kliknutí kompletně resetuje všechny filtry.
+        /// </summary>
+        private void ButtonResetFiltryClick(object sender, EventArgs e)
+        {
+            // Uzamkni eventy, aby se při resetování filtrů nespouštěly zbytečně.
+            ignorujEventy = true;
+
+            // Kompletně resetuj všechny filtry na výchozí hodnoty.
+            hledanyText = "";
+            vybranaKategorieId = null;
+            vybranyVyrobceId = null;
+
+            comboBoxKategorie.SelectedIndex = 0;
+            comboBoxVyrobci.SelectedIndex = 0;
+            textBoxHledani.Text = "";
+
+            // Znovu je odemkni, aby se eventy spouštěly normálně.
+            ignorujEventy = false;
+
+            AplikujFiltry();
         }
 
         /// <summary>
@@ -327,105 +388,35 @@ namespace HobbyDesk.UserControllers
             e.NewWidth = listViewSeznam.Columns[e.ColumnIndex].Width;
         }
 
-        private bool bylyIkonyListuZobrazeny = true;
-
         /// <summary>
         /// Mění způsob zobrazení položek v ListView podle výběru v ComboBoxu.
         /// </summary>
         private void ComboBoxZobrazeniSelectedIndexChanged(object sender, EventArgs e)
         {
+            // Získej aktuální výběr z ComboBoxu pro zobrazení.
             string vyber = comboBoxZobrazeni.SelectedItem.ToString();
 
             switch (vyber)
             {
                 case "Tabulka":
                     listViewSeznam.View = View.Details;
-                    checkBoxSeznamIkony.Enabled = true;
-                    imageList.ImageSize = new Size(64, 64);
                     listViewSeznam.ShowItemToolTips = false;
-                    if (bylyIkonyListuZobrazeny == true) {
-                        zobrazovatIkony = true;
-                    } else
-                    {
-                        checkBoxSeznamIkony.Checked = false;
-                        zobrazovatIkony = false;
-                    }
+                    imageList.ImageSize = new Size(64, 64);
                     break;
-
                 case "Dlaždice":
                     listViewSeznam.View = View.Tile;
-                    checkBoxSeznamIkony.Enabled = false;
-                    checkBoxSeznamIkony.Checked = true;
-                    imageList.ImageSize = new Size(64, 64);
                     listViewSeznam.ShowItemToolTips = false;
-                    zobrazovatIkony = true;
+                    imageList.ImageSize = new Size(64, 64);
                     break;
 
                 case "Velké ikony":
                     listViewSeznam.View = View.LargeIcon;
-                    checkBoxSeznamIkony.Enabled = false;
-                    checkBoxSeznamIkony.Checked = true;
                     imageList.ImageSize = new Size(96, 96);
                     listViewSeznam.ShowItemToolTips = true;
-                    zobrazovatIkony = true;
                     break;
             }
-
-            ZmenKrytiObrazku();
-        }
-
-        /// <summary>
-        /// Změní stav zobrazování ikon podle zaškrtnutí CheckBoxu. Primární využití je v zobrazení "Tabulka".
-        /// </summary>
-        private void CheckBoxSeznamIkonyClick(object sender, EventArgs e)
-        {
-            zobrazovatIkony = checkBoxSeznamIkony.Checked;
-            bylyIkonyListuZobrazeny = false;
-            ZmenKrytiObrazku();
-        }
-
-        /// <summary>
-        /// Převážně aktualizuje zobrazení ikon v ListView podle aktuálního stavu zobrazovatIkony.
-        /// Pro správné fungování aktualizuje přepočítá sloupce a znovu načítá seznam, aby se změny projevily. 
-        /// Také volá ListViewSeznamResize pro přizpůsobení šířky sloupců.
-        /// </summary>
-        private void ZmenKrytiObrazku()
-        {
-            // Aktualizuj zobrazení ikon v ListView podle aktuálního stavu zobrazovatIkony.
-            AktualizaceKrytiObrazku(listViewSeznam.View);
-
-            // Nastav sloupce znovu, aby se přizpůsobily změně zobrazení ikon.
-            NastavSloupce();
-
-            // Aktualizuj seznam v ListView, aby se změny projevily.
             AktualizujSeznam();
-
-            // Přizpůsob šířku sloupců nové situaci.
-            ListViewSeznamResize(null, null);
-        }
-
-        /// <summary>
-        /// Pomocná metoda, která umožňuje aktualizovat zobrazení ikon v ListView bez ohledu na aktuální zobrazení.
-        /// </summary>
-        /// <param name="puvodniZobrazeni">Aktuální způsob zobrazení položek v ListView.</param>
-        private void AktualizaceKrytiObrazku(View puvodniZobrazeni)
-        {
-            // Pokud mají být ikony zobrazovány, přiřaď ImageList k ListView pro zobrazení ikon.
-            if (zobrazovatIkony)
-            {
-                listViewSeznam.SmallImageList = imageList;
-                listViewSeznam.LargeImageList = imageList;
-            }
-            // Jinak odstraň ImageList z ListView, aby se ikony nezobrazovaly.
-            else
-            {
-                listViewSeznam.SmallImageList = null;
-                listViewSeznam.LargeImageList = null;
-            }
-
-            // Pro aktualizaci zobrazení ListView přepni do jiného zobrazení a zpět. (Trochu hack..)
-            listViewSeznam.View = View.List;
-            listViewSeznam.View = puvodniZobrazeni;
         }
     }
 }
+
