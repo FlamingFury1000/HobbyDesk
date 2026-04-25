@@ -1,4 +1,5 @@
 ﻿using HobbyDesk.Data;
+using HobbyDesk.Enums;
 using HobbyDesk.Forms;
 using System;
 using System.Collections.Generic;
@@ -151,12 +152,15 @@ namespace HobbyDesk.UserControllers
                 item.Tag = produkt;
                 listViewSeznam.Items.Add(item);
             }
+
+            // Aktualizuj počet zobrazených položek v labelu.
+            AktualizujPocetPolozekLabel();
         }
 
         /// <summary>
         /// Řeší kliknutí na položku "Smazat" v kontextovém menu. Otevře tím dialog pro potvrzení smazání produktu.
         /// </summary>
-        private void ToolStripMenuItemSmazat_Click(object sender, EventArgs e)
+        private void ToolStripMenuItemSmazatClick(object sender, EventArgs e)
         {
             // Pokud ListView nemá žádné vybrané položky, neprováděj žádnou akci.
             if (listViewSeznam.SelectedItems.Count == 0)
@@ -199,6 +203,7 @@ namespace HobbyDesk.UserControllers
 
             // Otevři formulář pro úpravu produktu.
             UpravProduktForm upravProduktForm = new UpravProduktForm(vybranyProdukt, appData);
+            upravProduktForm.Text = $"Úprava produktu - {vybranyProdukt.Nazev}";
             if (upravProduktForm.ShowDialog() == DialogResult.OK)
             {
                 AktualizujSeznam();
@@ -210,15 +215,7 @@ namespace HobbyDesk.UserControllers
         /// </summary>
         private void ListViewSeznamDoubleClick(object sender, EventArgs e)
         {
-            // Vyber vybranou položku.
-            Produkt vybranyProdukt = (Produkt)listViewSeznam.SelectedItems[0].Tag;
-
-            // Otevři formulář pro úpravu produktu.
-            UpravProduktForm upravProduktForm = new UpravProduktForm(vybranyProdukt, appData);
-            if (upravProduktForm.ShowDialog() == DialogResult.OK)
-            {
-                AktualizujSeznam();
-            }
+            ToolStripMenuItemUpravitClick(sender, e);
         }
 
         /// <summary>
@@ -253,9 +250,9 @@ namespace HobbyDesk.UserControllers
         private void TextBoxHledaniTextChanged(object sender, EventArgs e)
         {
             // Zamezuje kaskádnímu volání eventů při resetování filtrů.
-            if (ignorujEventy == true) 
-            { 
-                return; 
+            if (ignorujEventy == true)
+            {
+                return;
             }
 
             // Ulož hledaný text jako shodu pro hledání.
@@ -321,30 +318,37 @@ namespace HobbyDesk.UserControllers
             foreach (Produkt produkt in appData.Produkty)
             {
                 bool odpovida = true;
-                
+
                 // Pokud je hledaný text neprázdný, zkontroluj, zda název produktu obsahuje hledaný text.
-                if (!string.IsNullOrWhiteSpace(hledanyText)) {
-                    if (produkt.Nazev == null || !produkt.Nazev.ToLower().Contains(hledanyText.ToLower())) {
+                if (!string.IsNullOrWhiteSpace(hledanyText))
+                {
+                    if (produkt.Nazev == null || !produkt.Nazev.ToLower().Contains(hledanyText.ToLower()))
+                    {
                         odpovida = false;
-                    } 
+                    }
                 }
 
                 // Pokud je vybraná kategorie, zkontroluj, zda ID kategorie produktu odpovídá vybrané kategorii.
-                if (vybranaKategorieId.HasValue) {
-                    if (produkt.IdKategorie != vybranaKategorieId.Value) {
+                if (vybranaKategorieId.HasValue)
+                {
+                    if (produkt.IdKategorie != vybranaKategorieId.Value)
+                    {
                         odpovida = false;
                     }
                 }
 
                 // Pokud je vybraný výrobce, zkontroluj, zda ID výrobce produktu odpovídá vybranému výrobci.
-                if (vybranyVyrobceId.HasValue) {
-                    if (produkt.IdVyrobce != vybranyVyrobceId.Value) {
+                if (vybranyVyrobceId.HasValue)
+                {
+                    if (produkt.IdVyrobce != vybranyVyrobceId.Value)
+                    {
                         odpovida = false;
                     }
                 }
 
                 // Pokud produkt odpovídá všem aktivním filtrům, přidej ho do výsledku.
-                if (odpovida) {
+                if (odpovida)
+                {
                     vysledek.Add(produkt);
                 }
             }
@@ -411,11 +415,136 @@ namespace HobbyDesk.UserControllers
 
                 case "Velké ikony":
                     listViewSeznam.View = View.LargeIcon;
-                    imageList.ImageSize = new Size(96, 96);
+                    imageList.ImageSize = new Size(64, 64);
                     listViewSeznam.ShowItemToolTips = true;
                     break;
             }
             AktualizujSeznam();
+        }
+
+        /// <summary>
+        /// Otevře formulář pro přidání nového produktu.
+        /// </summary>
+        private void ButtonPridejClick(object sender, EventArgs e)
+        {
+            // Vytvoř nový produkt s defaultními hodnotami
+            Produkt novyProdukt = new Produkt();
+            novyProdukt.Pocet = 1;
+            novyProdukt.IdKategorie = appData.Kategorie[0].Id;
+            novyProdukt.IdVyrobce = appData.Vyrobci[0].Id;
+
+            // Nastav mu nové ID (nejvyšší ID + 1)
+            if (appData.Produkty.Count > 0)
+            {
+                novyProdukt.Id = appData.Produkty.Max(p => p.Id) + 1;
+            }
+            else
+            {
+                novyProdukt.Id = 1;
+            }
+
+            // Otevři formulář jako při editaci
+            UpravProduktForm upravProduktForm = new UpravProduktForm(novyProdukt, appData);
+            upravProduktForm.Text = "Přidat nový produkt";
+
+            if (upravProduktForm.ShowDialog() == DialogResult.OK)
+            {
+                // Přidej produkt do databáze (kolekce)
+                appData.Produkty.Add(novyProdukt);
+
+                // Aktualizuj filtrování a seznam
+                AplikujFiltry();
+            }
+        }
+
+        /// <summary>
+        /// Tlačítko, které zastupuje funkci "Upravit" z kontextového menu.
+        /// </summary>
+        private void ButtonUpravClick(object sender, EventArgs e)
+        {
+            ToolStripMenuItemUpravitClick(sender, e);
+        }
+
+        /// <summary>
+        /// Tlačítko, které zastupuje funkci "Smazat" z kontextového menu.
+        /// </summary>
+        private void ButtonOdeberClick(object sender, EventArgs e)
+        {
+            ToolStripMenuItemSmazatClick(sender, e);
+        }
+
+        /// <summary>
+        /// Dynamicky aktualizuje text v labely, který zobrazuje počet aktuálně zobrazených položek.
+        /// </summary>
+        private void AktualizujPocetPolozekLabel()
+        {
+            LabelPocetPrvku.Text = $"Aktuálně zobrazeno: {filtrovaneProdukty.Count} / {appData.Produkty.Count}";
+        }
+
+        /// <summary>
+        /// Tlačítko, které otevře formulář pro správu kategorií. 
+        /// </summary>
+        private void ButtonEditKategorieClick(object sender, EventArgs e)
+        {
+            // Otevři formulář pro správu kategorií.
+            SpravaFiltruForm form = new SpravaFiltruForm(appData, RezimFiltru.Kategorie);
+            form.ShowDialog();
+
+            // Aktualizuj ComboBox pro kategorie a znovu aplikuj filtry.
+            AktualizujComboBoxKategorie();
+            AplikujFiltry();
+        }
+
+        /// <summary>
+        /// Tlačítko, které otevře formulář pro správu výrobců.
+        /// </summary>
+        private void ButtonEditVyrobceClick(object sender, EventArgs e)
+        {
+            // Otevři formulář pro správu výrobců.
+            SpravaFiltruForm form = new SpravaFiltruForm(appData, RezimFiltru.Vyrobce);
+            form.ShowDialog();
+
+            // Aktualizuj ComboBox pro výrobce a znovu aplikuj filtry.
+            AktualizujComboBoxVyrobci();
+            AplikujFiltry();
+        }
+
+        /// <summary>
+        /// Aktualizuje položky v ComboBoxu pro kategorie podle aktuálního stavu kategorií v appData.
+        /// </summary>
+        private void AktualizujComboBoxKategorie()
+        {
+            ignorujEventy = true;
+
+            // Vymaž všechny položky v ComboBoxu a znovu je přidej z appData, aby se aktualizoval seznam kategorií.
+            comboBoxKategorie.Items.Clear();
+            comboBoxKategorie.Items.Add("");
+            comboBoxKategorie.Items.AddRange(appData.Kategorie.ToArray());
+            comboBoxKategorie.DisplayMember = "Nazev";
+            comboBoxKategorie.SelectedIndex = 0;
+
+            vybranaKategorieId = null;
+
+            ignorujEventy = false;
+        }
+
+        /// <summary>
+        /// Aktualizuje položky v ComboBoxu pro výrobce podle aktuálního stavu výrobců v appData.
+        /// </summary>
+        private void AktualizujComboBoxVyrobci()
+        {
+            ignorujEventy = true;
+
+            // Vymaž všechny položky v ComboBoxu a znovu je přidej z appData, aby se aktualizoval seznam výrobců.
+            comboBoxVyrobci.Items.Clear();
+            comboBoxVyrobci.Items.Add("");
+            comboBoxVyrobci.Items.AddRange(appData.Vyrobci.ToArray());
+            comboBoxVyrobci.DisplayMember = "Nazev";
+            comboBoxVyrobci.SelectedIndex = 0;
+
+            vybranyVyrobceId = null;
+
+            ignorujEventy = false;
         }
     }
 }

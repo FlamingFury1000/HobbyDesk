@@ -63,9 +63,29 @@ namespace HobbyDesk.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _4k_stonks {
+        internal static System.Drawing.Bitmap ikona_delete {
             get {
-                object obj = ResourceManager.GetObject("4k stonks", resourceCulture);
+                object obj = ResourceManager.GetObject("ikona_delete", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ikona_edit {
+            get {
+                object obj = ResourceManager.GetObject("ikona_edit", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ikona_plus {
+            get {
+                object obj = ResourceManager.GetObject("ikona_plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

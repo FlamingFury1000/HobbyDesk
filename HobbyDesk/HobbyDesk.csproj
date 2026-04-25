@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\AppData.cs" />
+    <Compile Include="Enums\RezimFiltru.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,11 +87,28 @@
     <Compile Include="Data\Modely\Kategorie.cs" />
     <Compile Include="Data\Modely\Produkt.cs" />
     <Compile Include="Data\Modely\Vyrobce.cs" />
+    <Compile Include="Forms\SpravaFiltruForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SpravaFiltruForm.Designer.cs">
+      <DependentUpon>SpravaFiltruForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\UpravFiltrForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\UpravFiltrForm.Designer.cs">
+      <DependentUpon>UpravFiltrForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\UpravProduktForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\UpravProduktForm.Designer.cs">
       <DependentUpon>UpravProduktForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Sluzby\JsonStorage.cs" />
     <Compile Include="UserControllers\IndexControl.cs">
@@ -122,6 +140,12 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SpravaFiltruForm.resx">
+      <DependentUpon>SpravaFiltruForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\UpravFiltrForm.resx">
+      <DependentUpon>UpravFiltrForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\UpravProduktForm.resx">
       <DependentUpon>UpravProduktForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -133,11 +157,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="UserControllers\SeznamControl.resx">
       <DependentUpon>SeznamControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -162,13 +181,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Obrazky\default.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\ikona_delete.png" />
+    <Content Include="Resources\ikona_edit.png" />
+    <Content Include="Resources\ikona_reset.png" />
+    <None Include="Resources\ikona_plus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets" Condition="Exists('..\packages\System.ValueTuple.4.6.1\build\net471\System.ValueTuple.targets')" />
