@@ -183,6 +183,10 @@ namespace HobbyDesk.UserControllers
             {
                 appData.Produkty.Remove(vybranyProdukt);
                 filtrovaneProdukty.Remove(vybranyProdukt);
+
+                // Nastav v Form1 příznak neuložených změn.
+                ((Form1)this.ParentForm).NastavNeulozeneZmeny();
+
                 AktualizujSeznam();
             }
         }
@@ -206,6 +210,8 @@ namespace HobbyDesk.UserControllers
             upravProduktForm.Text = $"Úprava produktu - {vybranyProdukt.Nazev}";
             if (upravProduktForm.ShowDialog() == DialogResult.OK)
             {
+                // Nastav v Form1 příznak neuložených změn.
+                ((Form1)this.ParentForm).NastavNeulozeneZmeny();
                 AktualizujSeznam();
             }
         }
@@ -452,6 +458,9 @@ namespace HobbyDesk.UserControllers
                 // Přidej produkt do databáze (kolekce)
                 appData.Produkty.Add(novyProdukt);
 
+                // Nastav v Form1 příznak neuložených změn.
+                ((Form1)this.ParentForm).NastavNeulozeneZmeny();
+
                 // Aktualizuj filtrování a seznam
                 AplikujFiltry();
             }
@@ -474,6 +483,42 @@ namespace HobbyDesk.UserControllers
         }
 
         /// <summary>
+        /// Tlačítko, které kompletně promaže všechny produkty z appData.
+        /// </summary>
+        private void buttonOdeberVseClick(object sender, EventArgs e)
+        {
+            // Pokud není žádný produkt k odebrání, zobraz informaci a neprováděj žádnou akci.
+            if (appData.Produkty.Count == 0)
+            {
+                MessageBox.Show("Žádné produkty k odebrání.", "Informace", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Zobraz potvrzovací dialog pro smazání všech produktů.
+            DialogResult result = MessageBox.Show(
+                "Opravdu chcete smazat všechny produkty?\n Tato akce nelze vrátit zpět.",
+                "Potvrzení smazání všech produktů",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            // Pokud je odpověď dialogu ne, neprováděj žádnou akci.
+            if (result == DialogResult.No)
+            {
+                return;
+            }
+
+            // Jinak smaž všechny produkty z appData a filtrovaných produktů a aktualizuj seznam.
+            appData.Produkty.Clear();
+            filtrovaneProdukty.Clear();
+
+            // Nastav v Form1 příznak neuložených změn.
+            ((Form1)this.ParentForm).NastavNeulozeneZmeny();
+
+            ButtonResetFiltryClick(sender, e);
+        }
+
+        /// <summary>
         /// Dynamicky aktualizuje text v labely, který zobrazuje počet aktuálně zobrazených položek.
         /// </summary>
         private void AktualizujPocetPolozekLabel()
@@ -488,6 +533,7 @@ namespace HobbyDesk.UserControllers
         {
             // Otevři formulář pro správu kategorií.
             SpravaFiltruForm form = new SpravaFiltruForm(appData, RezimFiltru.Kategorie);
+            form.Owner = this.FindForm();
             form.ShowDialog();
 
             // Aktualizuj ComboBox pro kategorie a znovu aplikuj filtry.
@@ -502,6 +548,7 @@ namespace HobbyDesk.UserControllers
         {
             // Otevři formulář pro správu výrobců.
             SpravaFiltruForm form = new SpravaFiltruForm(appData, RezimFiltru.Vyrobce);
+            form.Owner = this.FindForm();
             form.ShowDialog();
 
             // Aktualizuj ComboBox pro výrobce a znovu aplikuj filtry.

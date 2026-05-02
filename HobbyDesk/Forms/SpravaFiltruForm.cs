@@ -131,6 +131,9 @@ namespace HobbyDesk.Forms
 
                     // Přidej novou kategorii do dat.
                     appData.Kategorie.Add(nova);
+
+                    // Nastav v Form1 příznak neuložených změn.
+                    ((Form1)this.Owner).NastavNeulozeneZmeny();
                 }
                 // Pokud je režim pro Výrobce.
                 else
@@ -138,7 +141,7 @@ namespace HobbyDesk.Forms
                     int noveId;
 
                     // Pokud není žádný výrobce, začni ID od 1.
-                    if (appData.Kategorie.Count == 0)
+                    if (appData.Vyrobci.Count == 0)
                     {
                         noveId = 1;
                     }
@@ -155,6 +158,9 @@ namespace HobbyDesk.Forms
 
                     // Přidej nového výrobce do dat.
                     appData.Vyrobci.Add(novy);
+
+                    // Nastav v Form1 příznak neuložených změn.
+                    ((Form1)this.Owner).NastavNeulozeneZmeny();
                 }
 
                 // Po přidání nové kategorie nebo výrobce aktualizuj seznam v ListView.
@@ -187,6 +193,10 @@ namespace HobbyDesk.Forms
                 {
                     // Aktualizuj název kategorie podle názvu z formuláře.
                     kategorie.Nazev = form.NazevFiltru;
+
+                    // Nastav v Form1 příznak neuložených změn.
+                    ((Form1)this.Owner).NastavNeulozeneZmeny();
+
                     AktualizujSeznam();
                 }
             }
@@ -204,6 +214,10 @@ namespace HobbyDesk.Forms
                 {
                     // Aktualizuj název výrobce podle názvu z formuláře.
                     vyrobce.Nazev = form.NazevFiltru;
+
+                    // Nastav v Form1 příznak neuložených změn.
+                    ((Form1)this.Owner).NastavNeulozeneZmeny();
+
                     AktualizujSeznam();
                 }
             }
@@ -247,6 +261,9 @@ namespace HobbyDesk.Forms
 
                 // Pokud uživatel zvolí "Ano", smaž kategorii z dat.
                 appData.Kategorie.Remove(kategorie);
+
+                // Nastav v Form1 příznak neuložených změn.
+                ((Form1)this.Owner).NastavNeulozeneZmeny();
             }
             else
             // Pokud je režim pro Výrobce.
@@ -274,6 +291,9 @@ namespace HobbyDesk.Forms
 
                 // Pokud uživatel zvolí "Ano", smaž výrobce z dat.
                 appData.Vyrobci.Remove(vyrobce);
+
+                // Nastav v Form1 příznak neuložených změn.
+                ((Form1)this.Owner).NastavNeulozeneZmeny();
             }
 
             // Po smazání kategorie nebo výrobce aktualizuj seznam v ListView.

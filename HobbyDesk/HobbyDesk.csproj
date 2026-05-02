@@ -125,18 +125,6 @@
     <Compile Include="UserControllers\SeznamControl.Designer.cs">
       <DependentUpon>SeznamControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControllers\UlozControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControllers\UlozControl.Designer.cs">
-      <DependentUpon>UlozControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControllers\VlozControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControllers\VlozControl.Designer.cs">
-      <DependentUpon>VlozControl.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -160,12 +148,6 @@
     <EmbeddedResource Include="UserControllers\SeznamControl.resx">
       <DependentUpon>SeznamControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControllers\UlozControl.resx">
-      <DependentUpon>UlozControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControllers\VlozControl.resx">
-      <DependentUpon>VlozControl.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\HobbyDesk.Data.AppData.datasource" />
     <None Include="Properties\Settings.settings">
@@ -186,6 +168,7 @@
     <Content Include="Obrazky\default.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\ikona_clear.png" />
     <Content Include="Resources\ikona_delete.png" />
     <Content Include="Resources\ikona_edit.png" />
     <Content Include="Resources\ikona_reset.png" />

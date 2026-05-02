@@ -40,11 +40,12 @@
             this.comboBoxZobrazeni = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonOdeberVse = new System.Windows.Forms.Button();
+            this.imageListTlacitka = new System.Windows.Forms.ImageList(this.components);
             this.buttonEditVyrobce = new System.Windows.Forms.Button();
             this.imageListFiltry = new System.Windows.Forms.ImageList(this.components);
             this.buttonEditKategorie = new System.Windows.Forms.Button();
             this.buttonOdeber = new System.Windows.Forms.Button();
-            this.imageListTlacitka = new System.Windows.Forms.ImageList(this.components);
             this.buttonUprav = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.textBoxHledani = new System.Windows.Forms.TextBox();
@@ -70,7 +71,7 @@
             this.listViewSeznam.Location = new System.Drawing.Point(0, 152);
             this.listViewSeznam.MultiSelect = false;
             this.listViewSeznam.Name = "listViewSeznam";
-            this.listViewSeznam.Size = new System.Drawing.Size(1055, 617);
+            this.listViewSeznam.Size = new System.Drawing.Size(1055, 572);
             this.listViewSeznam.TabIndex = 0;
             this.listViewSeznam.UseCompatibleStateImageBehavior = false;
             this.listViewSeznam.View = System.Windows.Forms.View.Details;
@@ -105,8 +106,8 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.listViewSeznam);
+            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.panel2);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -159,6 +160,7 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.buttonOdeberVse);
             this.panel2.Controls.Add(this.buttonEditVyrobce);
             this.panel2.Controls.Add(this.buttonEditKategorie);
             this.panel2.Controls.Add(this.buttonOdeber);
@@ -177,12 +179,37 @@
             this.panel2.Size = new System.Drawing.Size(1055, 152);
             this.panel2.TabIndex = 5;
             // 
+            // buttonOdeberVse
+            // 
+            this.buttonOdeberVse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonOdeberVse.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonOdeberVse.ImageIndex = 4;
+            this.buttonOdeberVse.ImageList = this.imageListTlacitka;
+            this.buttonOdeberVse.Location = new System.Drawing.Point(948, 12);
+            this.buttonOdeberVse.Name = "buttonOdeberVse";
+            this.buttonOdeberVse.Size = new System.Drawing.Size(94, 94);
+            this.buttonOdeberVse.TabIndex = 17;
+            this.buttonOdeberVse.Text = "Odeber vše";
+            this.buttonOdeberVse.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.buttonOdeberVse.UseVisualStyleBackColor = true;
+            this.buttonOdeberVse.Click += new System.EventHandler(this.buttonOdeberVseClick);
+            // 
+            // imageListTlacitka
+            // 
+            this.imageListTlacitka.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTlacitka.ImageStream")));
+            this.imageListTlacitka.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTlacitka.Images.SetKeyName(0, "ikona_plus.png");
+            this.imageListTlacitka.Images.SetKeyName(1, "ikona_reset.png");
+            this.imageListTlacitka.Images.SetKeyName(2, "ikona_edit.png");
+            this.imageListTlacitka.Images.SetKeyName(3, "ikona_delete.png");
+            this.imageListTlacitka.Images.SetKeyName(4, "ikona_clear.png");
+            // 
             // buttonEditVyrobce
             // 
             this.buttonEditVyrobce.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEditVyrobce.ImageIndex = 0;
             this.buttonEditVyrobce.ImageList = this.imageListFiltry;
-            this.buttonEditVyrobce.Location = new System.Drawing.Point(908, 63);
+            this.buttonEditVyrobce.Location = new System.Drawing.Point(807, 63);
             this.buttonEditVyrobce.Name = "buttonEditVyrobce";
             this.buttonEditVyrobce.Size = new System.Drawing.Size(36, 37);
             this.buttonEditVyrobce.TabIndex = 16;
@@ -200,7 +227,7 @@
             this.buttonEditKategorie.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonEditKategorie.ImageIndex = 0;
             this.buttonEditKategorie.ImageList = this.imageListFiltry;
-            this.buttonEditKategorie.Location = new System.Drawing.Point(908, 23);
+            this.buttonEditKategorie.Location = new System.Drawing.Point(807, 23);
             this.buttonEditKategorie.Name = "buttonEditKategorie";
             this.buttonEditKategorie.Size = new System.Drawing.Size(36, 37);
             this.buttonEditKategorie.TabIndex = 15;
@@ -221,15 +248,6 @@
             this.buttonOdeber.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.buttonOdeber.UseVisualStyleBackColor = true;
             this.buttonOdeber.Click += new System.EventHandler(this.ButtonOdeberClick);
-            // 
-            // imageListTlacitka
-            // 
-            this.imageListTlacitka.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTlacitka.ImageStream")));
-            this.imageListTlacitka.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageListTlacitka.Images.SetKeyName(0, "ikona_plus.png");
-            this.imageListTlacitka.Images.SetKeyName(1, "ikona_reset.png");
-            this.imageListTlacitka.Images.SetKeyName(2, "ikona_edit.png");
-            this.imageListTlacitka.Images.SetKeyName(3, "ikona_delete.png");
             // 
             // buttonUprav
             // 
@@ -270,7 +288,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(685, 30);
+            this.label3.Location = new System.Drawing.Point(584, 30);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 8, 8, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(81, 20);
@@ -281,7 +299,7 @@
             // 
             this.comboBoxKategorie.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxKategorie.FormattingEnabled = true;
-            this.comboBoxKategorie.Location = new System.Drawing.Point(780, 25);
+            this.comboBoxKategorie.Location = new System.Drawing.Point(679, 25);
             this.comboBoxKategorie.Name = "comboBoxKategorie";
             this.comboBoxKategorie.Size = new System.Drawing.Size(121, 28);
             this.comboBoxKategorie.TabIndex = 5;
@@ -291,7 +309,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(700, 71);
+            this.label4.Location = new System.Drawing.Point(599, 71);
             this.label4.Margin = new System.Windows.Forms.Padding(3, 8, 8, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(69, 20);
@@ -302,7 +320,7 @@
             // 
             this.comboBoxVyrobci.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBoxVyrobci.FormattingEnabled = true;
-            this.comboBoxVyrobci.Location = new System.Drawing.Point(780, 65);
+            this.comboBoxVyrobci.Location = new System.Drawing.Point(679, 65);
             this.comboBoxVyrobci.Name = "comboBoxVyrobci";
             this.comboBoxVyrobci.Size = new System.Drawing.Size(121, 28);
             this.comboBoxVyrobci.TabIndex = 6;
@@ -314,7 +332,7 @@
             this.buttonResetFiltry.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonResetFiltry.ImageIndex = 1;
             this.buttonResetFiltry.ImageList = this.imageListTlacitka;
-            this.buttonResetFiltry.Location = new System.Drawing.Point(949, 12);
+            this.buttonResetFiltry.Location = new System.Drawing.Point(848, 12);
             this.buttonResetFiltry.Name = "buttonResetFiltry";
             this.buttonResetFiltry.Size = new System.Drawing.Size(94, 94);
             this.buttonResetFiltry.TabIndex = 11;
@@ -380,5 +398,6 @@
         private System.Windows.Forms.Button buttonEditKategorie;
         private System.Windows.Forms.Button buttonEditVyrobce;
         private System.Windows.Forms.ImageList imageListFiltry;
+        private System.Windows.Forms.Button buttonOdeberVse;
     }
 }
