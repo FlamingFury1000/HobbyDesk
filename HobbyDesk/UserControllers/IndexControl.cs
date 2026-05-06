@@ -45,8 +45,9 @@ namespace HobbyDesk
         /// <param name="appData">Data aplikace obsahující produkty, kategorie a výrobce.</param>
         private void AktualizujKategorieGraf(AppData appData)
         {
-            // Vymaž všechny body grafu.
+            // Vymaž všechny body grafu a nastav typ hodnot na string.
             chartKategorie.Series[0].Points.Clear();
+            chartKategorie.Series[0].XValueType = ChartValueType.String;
 
             // Seskup všechny produkty podle jejich kategorie a spočítej počet produktů v každé kategorii.
             var data = appData.Produkty
@@ -92,8 +93,9 @@ namespace HobbyDesk
         /// <param name="appData">Data aplikace obsahující produkty, kategorie a výrobce.</param>
         private void AktualizujVyrobciGraf(AppData appData)
         {
-            // Vymaž všechny body grafu.
+            // Vymaž všechny body grafu a nastav typ hodnot na string.
             chartVyrobci.Series[0].Points.Clear();
+            chartVyrobci.Series[0].XValueType = ChartValueType.String;
 
             // Seskup všechny produkty podle jejich výrobce a spočítej počet produktů pro každého výrobce.
             var data = appData.Produkty
