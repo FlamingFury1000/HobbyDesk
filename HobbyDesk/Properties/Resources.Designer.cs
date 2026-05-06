@@ -83,6 +83,16 @@ namespace HobbyDesk.Properties {
         /// <summary>
         ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ikona_hobbydesk {
+            get {
+                object obj = ResourceManager.GetObject("ikona_hobbydesk", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Vyhledává lokalizovaný prostředek typu System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap ikona_plus {
             get {
                 object obj = ResourceManager.GetObject("ikona_plus", resourceCulture);

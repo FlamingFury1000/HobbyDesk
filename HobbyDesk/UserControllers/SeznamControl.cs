@@ -496,7 +496,7 @@ namespace HobbyDesk.UserControllers
 
             // Zobraz potvrzovací dialog pro smazání všech produktů.
             DialogResult result = MessageBox.Show(
-                "Opravdu chcete smazat všechny produkty?\n Tato akce nelze vrátit zpět.",
+                "Opravdu chcete smazat všechny produkty?\nTato akce nelze vrátit zpět.",
                 "Potvrzení smazání všech produktů",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning

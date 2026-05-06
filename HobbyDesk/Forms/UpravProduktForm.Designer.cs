@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpravProduktForm));
             this.textBoxNazev = new System.Windows.Forms.TextBox();
             this.numericUpDownID = new System.Windows.Forms.NumericUpDown();
             this.comboBoxKategorie = new System.Windows.Forms.ComboBox();
@@ -209,6 +210,7 @@
             this.Controls.Add(this.numericUpDownPocet);
             this.Controls.Add(this.textBoxNazev);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpravProduktForm";

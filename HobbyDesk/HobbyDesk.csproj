@@ -65,6 +65,7 @@
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.6.3\lib\net462\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -171,7 +172,17 @@
     <Content Include="Resources\ikona_clear.png" />
     <Content Include="Resources\ikona_delete.png" />
     <Content Include="Resources\ikona_edit.png" />
+    <Content Include="Resources\ikona_edit_ico.ico" />
+    <Content Include="Resources\ikona_hobbydesk.png" />
+    <Content Include="Resources\ikona_hobbydesk_ico.ico" />
+    <Content Include="Resources\ikona_home.png" />
+    <Content Include="Resources\ikona_list.png" />
+    <Content Include="Resources\ikona_load.png" />
+    <Content Include="Resources\ikona_plus_ico.ico" />
     <Content Include="Resources\ikona_reset.png" />
+    <Content Include="Resources\ikona_save.png" />
+    <Content Include="Resources\ikona_save_as.png" />
+    <Content Include="Resources\ikona_shutdown.png" />
     <None Include="Resources\ikona_plus.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

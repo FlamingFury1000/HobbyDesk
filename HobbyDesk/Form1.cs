@@ -19,7 +19,7 @@ namespace HobbyDesk
         private AppData appData;
         private JsonStorage storage = new JsonStorage();
 
-        private IndexControl indexControl = new IndexControl();
+        private IndexControl indexControl;
         private SeznamControl seznamControl;
 
         private bool jsouNeulozeneZmeny = false;
@@ -30,6 +30,9 @@ namespace HobbyDesk
             appData = storage.Nacti();
 
             seznamControl = new SeznamControl(appData);
+            indexControl = new IndexControl();
+            indexControl.AktualizujGrafy(appData);
+
             NactiUserControls(indexControl);
         }
 
@@ -49,6 +52,7 @@ namespace HobbyDesk
         /// </summary>
         private void ButtonIndexClick(object sender, EventArgs e)
         {
+            indexControl.AktualizujGrafy(appData);
             NactiUserControls(indexControl);
         }
 
@@ -128,6 +132,8 @@ namespace HobbyDesk
 
                 seznamControl = new SeznamControl(appData);
 
+                indexControl.AktualizujGrafy(appData);
+
                 NactiUserControls(seznamControl);
 
                 NastavNeulozeneZmeny();
@@ -150,7 +156,7 @@ namespace HobbyDesk
         public void NastavNeulozeneZmeny()
         {
             jsouNeulozeneZmeny = true;
-            this.Text = "HobbyDesk *";
+            this.Text = "HobbyDesk v1.0 *";
         }
 
         /// <summary>
@@ -159,7 +165,7 @@ namespace HobbyDesk
         public void NastavUlozeno()
         {
             jsouNeulozeneZmeny = false;
-            this.Text = "HobbyDesk";
+            this.Text = "HobbyDesk 1.0";
         }
 
         /// <summary>
@@ -180,59 +186,6 @@ namespace HobbyDesk
                     e.Cancel = true;
                 }
             }
-        }
-
-        // Testovací data, POTOM VYMAŽ
-        private void VytvorTestData()
-        {
-            // Kategorie
-            appData.Kategorie.AddRange(new List<Kategorie>
-            {
-                new Kategorie { Id = 1, Nazev = "Nástroje" },
-                new Kategorie { Id = 2, Nazev = "Barvy" },
-                new Kategorie { Id = 3, Nazev = "Ředidla" },
-                new Kategorie { Id = 4, Nazev = "Patinátory" }
-            });
-
-            // Výrobci
-            appData.Vyrobci.AddRange(new List<Vyrobce>
-            {
-                new Vyrobce { Id = 1, Nazev = "Tamiya" },
-                new Vyrobce { Id = 2, Nazev = "Revell" },
-                new Vyrobce { Id = 3, Nazev = "Humbrol" },
-                new Vyrobce { Id = 4, Nazev = "Vallejo" },
-                new Vyrobce { Id = 5, Nazev = "Mr. Hobby" },
-                new Vyrobce { Id = 6, Nazev = "AK Interactive" },
-                new Vyrobce { Id = 7, Nazev = "Citadel" },
-                new Vyrobce { Id = 8, Nazev = "Scale75" },
-                new Vyrobce { Id = 9, Nazev = "Revell Contacta" },
-                new Vyrobce { Id = 10, Nazev = "Testors" }
-            });
-
-            // Produkty
-            appData.Produkty.AddRange(new List<Produkt>
-            {
-                new Produkt(1, "Štětec 0", 5, 1, 1, null),
-                new Produkt(2, "Štětec 1", 3, 1, 2, null),
-                new Produkt(3, "Barva červená", 10, 2, 3, null),
-                new Produkt(4, "Barva modrá", 8, 2, 4, null),
-                new Produkt(5, "Barva zelená", 12, 2, 5, null),
-                new Produkt(6, "Ředidlo 1", 7, 3, 6, null),
-                new Produkt(7, "Ředidlo 2", 6, 3, 7, null),
-                new Produkt(8, "Patinátor kov", 4, 4, 8, null),
-                new Produkt(9, "Patinátor rez", 2, 4, 9, null),
-                new Produkt(10, "Štětec 2", 9, 1, 10, null),
-                new Produkt(11, "Barva žlutá", 11, 2, 1, null),
-                new Produkt(12, "Barva černá", 15, 2, 2, null),
-                new Produkt(13, "Štětec 3", 4, 1, 3, null),
-                new Produkt(14, "Ředidlo 3", 5, 3, 4, null),
-                new Produkt(15, "Patinátor bronz", 3, 4, 5, null),
-                new Produkt(16, "Štětec 4", 7, 1, 6, null),
-                new Produkt(17, "Barva bílá", 10, 2, 7, null),
-                new Produkt(18, "Ředidlo 4", 6, 3, 8, null),
-                new Produkt(19, "Patinátor měď", 2, 4, 9, null),
-                new Produkt(20, "Štětec 5", 8, 1, 10, null)
-            });
         }
     }
 }
