@@ -39,14 +39,18 @@ Data se ukládají do JSON souboru, takže se dají snadno přenášet nebo zál
 - u výrobců se zobrazuje TOP 5 a zbytek je jako „Ostatní“
 - zobrazení počtu produktů, kategorií a výrobců
 
+# <img width="885" height="532" alt="promo_domovska_stranka" src="https://github.com/user-attachments/assets/7804f672-ccbf-4b74-b661-5ee3af81f11f" />
+
 ### Ukládání a načítání
 - uložení dat do interního JSON souboru aplikace
 - možnost uložit data kamkoliv přes "Uložit jako"
 - možnost načíst data z libovolného JSON souboru přes "Načíst"
 
+# <img width="883" height="530" alt="promo_ukladani" src="https://github.com/user-attachments/assets/7e5ce703-0e4a-43af-970b-c5fc4729fef8" />
+
 ### Ochrana proti neuloženým změnám
 - aplikace hlídá neuložené změny
 - při zavření aplikace nebo načtení nového souboru se zobrazí upozornění
 
-
+# <img width="883" height="530" alt="promo_ochrana" src="https://github.com/user-attachments/assets/ab8d9f2e-a695-47eb-a9fd-de5203944ea1" />
 ---
