@@ -25,7 +25,7 @@ namespace HobbyDesk
         /// <param name="appData">Data aplikace obsahující produkty, kategorie a výrobce.</param>
         public void AktualizujGrafy(AppData appData)
         {
-            // Pokud jsou data null, nic nedělej.
+            // Pokud data neexistují, nic nedělej.
             if (appData == null)
             {
                 return;
